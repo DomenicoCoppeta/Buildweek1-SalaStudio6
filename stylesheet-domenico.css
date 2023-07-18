@@ -47,7 +47,13 @@ padding: 0px 80px 0px 80px;
 header {
 display: flex;
 justify-content: space-between;
+padding-top: 40px;
 height: 160px;
+}
+
+.epicodeLogo {
+    width: 160px;
+    height: 40px;
 }
 
 #textblock {
