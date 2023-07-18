@@ -35,8 +35,7 @@ li {
 }
 
 .content {
-background-image: url("bg.jpg");
-background-repeat: no-repeat;
+background-image: url(assets/bg.jpg);
 margin: 0;
 width: 1024px;
 height: 768px;
