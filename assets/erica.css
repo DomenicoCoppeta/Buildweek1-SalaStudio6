@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    width: 1024px;
+    height: 768px;
+    color: white;
+    background-repeat:no-repeat;
+    background-size: cover;
+    font-family: 'Outfit', sans-serif;
+    text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+input {
+    font-family: 'Inter', sans-serif;
+}
+
+img {
+    height: 50px;
+}
+
