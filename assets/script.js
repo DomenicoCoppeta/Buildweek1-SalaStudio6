@@ -103,7 +103,7 @@ const questions = [
 window.onload = function() {
 
 // Identificare gli elementi nel DOM
-const buttonProceed = document.getElementById("button")
+const buttonProceed = document.getElementById("proceed")
 buttonProceed.disabled = true;
 
 // Clicca o no
