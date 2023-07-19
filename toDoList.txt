@@ -1,0 +1,15 @@
+
+WELCOME PAGE
+- if: se selezionato pulsante di opzione, è possibile accedere alla QUESTIONS PAGE con il click sul pulsante
+
+QUESTIONS PAGE
+
+- aggiungere pulsante per fare il test
+- assegnazione delle variabili e dei getElementsBy
+- prova con un paio di oggetti
+- le risposte vanno messe in maniera casuale nei pulsanti
+- selezione random della domanda e risposte -> collegata a un paragrafo
+- se viene selezionata una domanda boolean, devono esserci 2 pulsanti anzichè 4
+- assegnazione
+- inizializzazione del timer
+    - scelta del numero dei secondi in base al livello di difficoltà
