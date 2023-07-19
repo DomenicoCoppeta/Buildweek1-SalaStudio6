@@ -6,49 +6,50 @@
 
 
 * {
-margin: 0px;
-color: #FFFFFF
+    margin: 0px;
+    color: #FFFFFF
 }
 
 
 h1 {
-font-family: 'Outfit', sans-serif;
-font-weight: 200;
-font-size: 75px;
-line-height: 0.7;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 200;
+    font-size: 75px;
+    line-height: 0.7;
 }
+
 
 
 h4 {
-font-family: 'Inter', sans-serif;
-font-size: 25px;
-color: #D20094;
+    font-family: 'Inter', sans-serif;
+    font-size: 25px;
+    color: #D20094;
 }
 
 div {
-font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
 
 }
 
 li {
- font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .content {
-background-image: url(bg.jpg);
-margin: 0;
-width: 1024px;
-height: 768px;
-position: absolute;
-box-sizing: border-box;
-padding: 0px 80px 0px 80px;
+    background-image: url(bg.jpg);
+    margin: 0;
+    width: 1024px;
+    height: 768px;
+    position: absolute;
+    box-sizing: border-box;
+    padding: 0px 80px 0px 80px;
 }
 
 header {
-display: flex;
-justify-content: space-between;
-padding-top: 40px;
-height: 160px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 40px;
+    height: 160px;
 }
 
 .epicodeLogo {
@@ -57,38 +58,73 @@ height: 160px;
 }
 
 #textblock {
-margin: 0px 0px 100px 0px;
-display: flex;
-flex-direction: column;
-width: 650px;
-gap: 35px;
-position: relative;
-}
-
-.validation{
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
-
-#proceed {
-font-weight: 400;
-padding: 10px 40px 10px 40px;
-color: #000000;
-background-color: #00ffff;
-border: 0px;
+    margin: 0px 0px 100px 0px;
+    display: flex;
+    flex-direction: column;
+    width: 650px;
+    gap: 25px;
+    position: relative;
 }
 
 .question {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-size: 60px;
+}
+
+.validation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#proceed {
+    font-weight: 400;
+    padding: 10px 40px 10px 40px;
+    color: #000000;
+    background-color: #00ffff;
+    border: 0px;
 }
 
 form {
-    padding-top: 80px;
     text-align: center;
+    padding-top: 70px;
 }
 
 footer {
     text-align: center;
-    padding-top: 300px;
+    padding-top: 200px;
+}
+
+/*** RADIO BOTTON **/
+
+input[type="radio"] {
+    display: none;
+}
+
+.custom-radio {
+    display: inline-block;
+    width: 300px;
+    height: 50px;
+    border: 2px solid;
+    border-color: linear-gradient(top left, rgba(123, 23, 23, 0.1), rgb(11, 61, 170));
+    border-radius: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+    margin: 8px;
+
+}
+
+.option-label {
+    position: relative;
+    top: 28%;
+    cursor: pointer;
+
+}
+
+input[type="radio"]:checked+.custom-radio {
+    background-color: #D20094;
 }
