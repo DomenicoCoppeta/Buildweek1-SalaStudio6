@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
@@ -17,12 +17,14 @@
         </header>
 
         <main>
-            <h1 class="question">How can I create a <br>
-                <b>checkbox in HTML?</b>
+            <h1 class="question"><br>
+                <!-- 
+                <b></b>
+                -->
             </h1>
 
-            <form>
-
+            <form id="form">
+                <!-- 
                 <label>
                     <input type="radio" name="answer" value="answer1" />
                     <span class="custom-radio">
@@ -50,15 +52,20 @@
                         <span class="option-label"> 313 </span>
                     </span>
                 </label>
+                -->
 
             </form>
+            <p id = "divResult">alessio</p>
         </main>
 
         <footer>
-            <h5>QUESTION 1 <span style="color: #D20094">/10</span></h5>
+            <h5><span id="questionNumber"></span> <span id="numQuestions" style="color: #D20094"></span></h5>
         </footer>
 
     </div>
+
+    <script src="assets/script2.js"></script>
+
 </body>
 
 </html>

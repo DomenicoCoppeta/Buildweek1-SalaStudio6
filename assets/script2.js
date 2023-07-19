@@ -16,7 +16,7 @@ const questions = [
     type: "multiple",
     difficulty: "easy",
     question:
-      "In the programming language Java, which of these keywords would you put on a variable to make sure it doesn&#039;t get modified?",
+      "In the programming language Java, which of these keywords would you put on a variable to make sure it doesn't get modified?",
     correct_answer: "Final",
     incorrect_answers: ["Static", "Private", "Public"],
   },
@@ -104,20 +104,18 @@ window.onload = function() {
 
 
   // Identificare gli elementi nel DOM
-  const buttonProceed = document.getElementById("proceed");
-  const checkBox = document.getElementById("promise");
-  buttonProceed.disabled = true;
+  const title = document.getElementsByClassName("question");
+  const divForm = document.getElementById("form");
+  const divCheck = document.getElementById("divResult")
+  const questionNumber = document.getElementById("questionNumber")
+  const numQuestions = document.getElementById("numQuestions")
 
-  // Clicca o no
-  checkBox.addEventListener("change", function () {
-    if (checkBox.checked === true) {
-        buttonProceed.disabled = false;
-    } else {
-        buttonProceed.disabled = true;
-    }
-  })
 
-  //FATTO FATTO FATTO
+  // Creo le variabili
+  let punteggio = 0
+  let numDomande = questions.length
+  let currentQuestionIndex = 0
+
 
   // FUNZIONE CREAZIONE ARRAY CON TUTTE LE RISPOSTE
   function allAnswers (object) {
@@ -143,34 +141,45 @@ window.onload = function() {
     return array    
   }
 
-  // Identificare gli elementi nel DOM
-  const title = document.getElementsByClassName("question");
-  const divForm = document.getElementById("form");
-  //const buttonCheck = document.getElementById("buttonCheck")
-  //const divCheck = document.getElementById("divResult")
 
-  // Creo le variabili
-  let punteggio = 0
-  let numDomande = questions.length
-  let currentQuestionIndex = 0
-
-  function changeTitle () {
-    title[0].innerText =  "Alessio" //questions[currentQuestionIndex].question
+  // FUNZIONE CAMBIARE IL TITOLO
+  function changeTitle (object,currentIndex) {
+    title[0].innerText = object[currentIndex].question
   }
 
-  changeTitle()
+    // FUNZIONE CONTROLLARE RISPOSTE
+    function checkAnswers (object,currentIndex) {
+      //let selectedAnswer = document.querySelector("input[type=radio]:checked");
+      let selectedAnswer = document.querySelector("input[type=radio]:checked").value;
+  
+      if (selectedAnswer) {
+          let selectedValue = selectedAnswer;
+  
+          if (selectedValue === object[currentIndex].correct_answer) {
+              divCheck.innerText = "Correct";
+              punteggio += 1
+          } else {
+              divCheck.innerText = "Incorrect";
+          }
+      } else {
+          divCheck.innerText = "Please select an answer.";
+      }
+    };
 
-  function showQuestions () {
+  // FUNZIONE CREAZIONE DOMANDE E PULSANTI
+  function showQuestions (object,currentIndex) {
 
     // Assegno il testo della domanda
-    title[0].innerText = questions[currentQuestionIndex].question
+    title[0].innerText = object[currentIndex].question
     
     // Prendo tutte le domande e le mescolo
     let vettore = []
     let vettore2 = []
-    vettore = allAnswers(questions[currentQuestionIndex])
+    vettore = allAnswers(object[currentIndex])
     vettore2 = mescola(vettore)
     divForm.innerHTML = ""
+
+    changeTitle(object,currentIndex)
 
     // Ciclo per creare i pulsanti
     for (let i = 0; i < vettore2.length; i++) {
@@ -181,23 +190,37 @@ window.onload = function() {
         input.name = "answer";
         
         let label = document.createElement("label");
-        label.innerText = vettore2[i];
 
-        divForm.appendChild(input);
+        let span1 = document.createElement("span");
+        span1.classList.add("custom-radio")
+        
+        let span2 = document.createElement("span");
+        span2.classList.add("option-label")
+        span2.innerText = vettore2[i];
+
         divForm.appendChild(label);
+        label.appendChild(input);
+        label.appendChild(span1);
+        span1.appendChild(span2);
     }
 
+    setInterval(function() {
+      checkAnswers(object,currentIndex);
+    }, 100)
+
     // Passa alla domanda successiva
-    currentQuestionIndex += 1
+    //currentQuestionIndex += 1
   }
 
-  function checkAnswers () {
-    let selectedAnswer = document.querySelector("input[type=radio]:checked");
+  // FUNZIONE CONTROLLARE RISPOSTE
+  function checkAnswers (object,currentIndex) {
+    //let selectedAnswer = document.querySelector("input[type=radio]:checked");
+    let selectedAnswer = document.querySelector("input[type=radio]:checked").value;
 
     if (selectedAnswer) {
-        let selectedValue = selectedAnswer.value;
+        let selectedValue = selectedAnswer;
 
-        if (selectedValue === questions[currentQuestionIndex].correct_answer) {
+        if (selectedValue === object[currentIndex].correct_answer) {
             divCheck.innerText = "Correct";
             punteggio += 1
         } else {
@@ -208,6 +231,22 @@ window.onload = function() {
     }
   };
 
-  showQuestions()
-  setInterval(checkAnswers, 100)
+  // FUNZIONE PER CAMBIARE DOMANDA
+  function changeQuestion() {
+    if (currentQuestionIndex < numDomande) {
+      showQuestions(questions, currentQuestionIndex);
+      divCheck.innerText = ""; // Resetta il messaggio "Correct" o "Incorrect"
+      currentQuestionIndex++; // Passa alla prossima domanda
+      questionNumber.innerText = currentQuestionIndex;
+      numQuestions.innerText = "/" + numDomande;
+    } else {
+      // Hai finito tutte le domande, esegui la ricarica della pagina
+      console.log("Hai finito tutte le domande!");
+      window.location.reload();
+    }
   }
+
+  // Mostra la prima domanda dopo 3 secondi
+  setInterval(changeQuestion, 5000);
+
+};
