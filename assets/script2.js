@@ -113,6 +113,7 @@ window.onload = function() {
   const timer = document.getElementById("timer")
   const submitButton = document.getElementById("submit")
   const circularProgress = document.getElementById("circular-progress")
+
   
 
   // Creo le variabili
@@ -150,24 +151,32 @@ window.onload = function() {
     title[0].innerText = object[currentIndex].question
   }
 
-    // FUNZIONE CONTROLLARE RISPOSTE
-    function checkAnswers (object,currentIndex) {
-      //let selectedAnswer = document.querySelector("input[type=radio]:checked");
-      let selectedAnswer = document.querySelector("input[type=radio]:checked").value;
-  
-      if (selectedAnswer) {
-          let selectedValue = selectedAnswer;
-  
-          if (selectedValue === object[currentIndex].correct_answer) {
-              //divCheck.innerText = "Correct";
-              punteggio += 1
-          } else {
-              //divCheck.innerText = "Incorrect";
-          }
-      } else {
-          //divCheck.innerText = "Please select an answer.";
+  // FUNZIONE CONTROLLARE RISPOSTE
+  function areAllRadioButtonsUnchecked(radioButtons) {
+    for (const radioButton of radioButtons) {
+      if (radioButton.checked) {
+        return false; // Almeno uno è selezionato, restituisce false
       }
-    };
+    }
+    return true; // Nessuno è selezionato, restituisce true
+  }
+  
+  function checkAnswers(object, currentIndex) {
+    const selectedAnswer = document.querySelector("input[type=radio]:checked");
+    const radioButtons = document.querySelectorAll("input[type=radio][name=answer]");
+  
+    if (selectedAnswer) {
+      const selectedValue = selectedAnswer.value;
+      
+      if (!areAllRadioButtonsUnchecked(radioButtons)) {
+        if (selectedValue === object[currentIndex].correct_answer) {
+          punteggio += 1;
+        }
+      }
+    } else {
+      // Nessuna risposta selezionata, non fare nulla
+    }
+  }
 
   // FUNZIONE CREAZIONE DOMANDE E PULSANTI
   function showQuestions (object,currentIndex) {
@@ -209,40 +218,25 @@ window.onload = function() {
     }   
   }
 
-  // FUNZIONE CONTROLLARE RISPOSTE
-  function checkAnswers (object,currentIndex) {
-    
-    let selectedAnswer = document.querySelector("input[type=radio]:checked").value;
 
-    if (selectedAnswer) {
-        let selectedValue = selectedAnswer;
-
-        if (selectedValue === object[currentIndex].correct_answer) {
-            divCheck.innerText = "Correct";
-            punteggio += 1
-        } else {
-            divCheck.innerText = "Incorrect";
-        }
-    } else {
-        divCheck.innerText = "Please select an answer.";
-    }
-  };
 
   // Inizializza la variabile del timer
-  let seconds = 51;
+  let seconds = 10;
   let timerInterval;
-
-
 
   // Funzione per iniziare il timer
   function startTimer() {
     timerInterval = setInterval(function() {
       seconds--;
       if (seconds <= 0) {
+        clearInterval(timerInterval);
+        // Simula il click sul pulsante submit
+        const event = new Event("click");
+        submitButton.dispatchEvent(event);
         // Aggiungi qui le azioni da eseguire quando il timer raggiunge 0 (ad esempio, sottomettere automaticamente il quiz).
       } else {
         // Aggiorna il testo del timer
-        timer.innerText = "Seconds " + seconds + " remaining";
+        timer.innerText = "Timer: " + seconds + " secondi";
       }
     }, 1000);
   }
@@ -274,7 +268,8 @@ window.onload = function() {
         
           
       } else {
-        seconds = 51;
+        seconds = 10;
+        startTimer();
         title[0].innerText = "";
         questionNumber.innerText = "";
         numQuestions.innerText = "";
@@ -283,10 +278,6 @@ window.onload = function() {
         numQuestions.innerText = '/' + numDomande;
         divCheck.innerText = ""; // Resetta il messaggio "Correct" o "Incorrect"
       }
-
-
-    
     } 
   });
-
 }
