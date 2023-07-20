@@ -109,13 +109,14 @@ window.onload = function() {
   const divCheck = document.getElementById("divResult")
   const questionNumber = document.getElementById("questionNumber")
   const numQuestions = document.getElementById("numQuestions")
+  const timer = document.getElementById("timer")
 
+  
 
   // Creo le variabili
   let punteggio = 0
   let numDomande = questions.length
   let currentQuestionIndex = 0
-
 
   // FUNZIONE CREAZIONE ARRAY CON TUTTE LE RISPOSTE
   function allAnswers (object) {
@@ -168,17 +169,18 @@ window.onload = function() {
 
   // FUNZIONE CREAZIONE DOMANDE E PULSANTI
   function showQuestions (object,currentIndex) {
+    title[0].innerText = "";
+    divCheck.innerText = "";
+    divForm.innerHTML = "";
 
     // Assegno il testo della domanda
     title[0].innerText = object[currentIndex].question
     
     // Prendo tutte le domande e le mescolo
-    let vettore = []
     let vettore2 = []
-    vettore = allAnswers(object[currentIndex])
-    vettore2 = mescola(vettore)
-    divForm.innerHTML = ""
-
+    vettore2 = mescola(allAnswers(object[currentIndex]))
+    
+    // Assegno il titolo della domanda
     changeTitle(object,currentIndex)
 
     // Ciclo per creare i pulsanti
@@ -202,19 +204,12 @@ window.onload = function() {
         label.appendChild(input);
         label.appendChild(span1);
         span1.appendChild(span2);
-    }
-
-    setInterval(function() {
-      checkAnswers(object,currentIndex);
-    }, 100)
-
-    // Passa alla domanda successiva
-    //currentQuestionIndex += 1
+    }   
   }
 
   // FUNZIONE CONTROLLARE RISPOSTE
   function checkAnswers (object,currentIndex) {
-    //let selectedAnswer = document.querySelector("input[type=radio]:checked");
+    
     let selectedAnswer = document.querySelector("input[type=radio]:checked").value;
 
     if (selectedAnswer) {
@@ -231,22 +226,44 @@ window.onload = function() {
     }
   };
 
-  // FUNZIONE PER CAMBIARE DOMANDA
-  function changeQuestion() {
-    if (currentQuestionIndex < numDomande) {
-      showQuestions(questions, currentQuestionIndex);
-      divCheck.innerText = ""; // Resetta il messaggio "Correct" o "Incorrect"
-      currentQuestionIndex++; // Passa alla prossima domanda
-      questionNumber.innerText = currentQuestionIndex;
-      numQuestions.innerText = "/" + numDomande;
-    } else {
-      // Hai finito tutte le domande, esegui la ricarica della pagina
-      console.log("Hai finito tutte le domande!");
-      window.location.reload();
-    }
+let interval = 2000
+
+function timerCounter (tempo) {
+  tempo = tempo - 1000;
+} 
+
+// FUNZIONE PER CAMBIARE DOMANDA O MOSTRARE IL PUNTEGGIO FINALE
+function changeQuestion() {
+  if (currentQuestionIndex < numDomande) {
+    showQuestions(questions, currentQuestionIndex);
+    questionNumber.innerText = "QUESTION  " + (currentQuestionIndex + 1);
+    numQuestions.innerText = ' /' + numDomande;
+    divCheck.innerText = ""; // Resetta il messaggio "Correct" o "Incorrect"
+
+    // Ritarda la valutazione della risposta dell'utente di 5 secondi
+    
+    setTimeout(function() {
+      checkAnswers(questions, currentQuestionIndex - 1);
+    }, interval -100);
+  
+    currentQuestionIndex += 1; // Passa alla prossima domanda
+
+  } else {
+    // Mostra il punteggio finale nel titolo
+    title[0].innerText = ""
+    questionNumber.innerText = ""
+    numQuestions.innerText = ""
+    title[0].innerText = "Hai completato il quiz! Punteggio: " + punteggio + " su " + numDomande;
+    divForm.innerHTML = ""; // Rimuovi il modulo delle domande
+    divCheck.innerText = ""; // Rimuovi il messaggio "Correct" o "Incorrect"
   }
+}
 
-  // Mostra la prima domanda dopo 3 secondi
-  setInterval(changeQuestion, 5000);
-
+// Ritarda l'esecuzione della funzione changeQuestion di 3 secondi
+setTimeout(function() {
+  changeQuestion();
+  // Ripeti la funzione ogni 3 secondi
+  setInterval(changeQuestion, interval);
+  
+}, 1000);
 };
