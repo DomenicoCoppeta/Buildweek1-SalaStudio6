@@ -101,7 +101,7 @@ const questions = [
 
 
 // Caricamento della pagina
-window.onload = function() {
+window.onload = function () {
 
 
   // Identificare gli elementi nel DOM
@@ -114,7 +114,7 @@ window.onload = function() {
   const submitButton = document.getElementById("submit")
   const circularProgress = document.getElementById("circular-progress")
 
-  
+
 
   // Creo le variabili
   let punteggio = 0
@@ -122,7 +122,7 @@ window.onload = function() {
   let currentQuestionIndex = 0
 
   // FUNZIONE CREAZIONE ARRAY CON TUTTE LE RISPOSTE
-  function allAnswers (object) {
+  function allAnswers(object) {
     let array = object.incorrect_answers
     array.push(object.correct_answer)
     return array
@@ -134,20 +134,20 @@ window.onload = function() {
     let currentIndex = array.length, temporaryValue, randomIndex; // Ci prendiamo la lunghezza dell'array e partiamo dal fondo!
     // Finché ci sono elementi da mescolare, iteriamo l'array
     while (0 !== currentIndex) {
-        randomIndex = Math.floor(Math.random() * currentIndex); // Prendiamo un indice a caso dell'array, purché sia compreso tra 0 e la lunghezza dell'array
-        currentIndex -= 1; // Riduciamo di un'unità l'indice corrente
-        
-        // Una volta che abbiamo preso l'indice casuale, invertiamo l'elemento che stiamo analizzando alla posizione corrente (currentIndex) con quello alla posizione presa casualmente (randomIndex)
-        temporaryValue = array[currentIndex];     // Variabile temporanea
-        array[currentIndex] = array[randomIndex];    // Eseguiamo lo scambio
-        array[randomIndex] = temporaryValue;
+      randomIndex = Math.floor(Math.random() * currentIndex); // Prendiamo un indice a caso dell'array, purché sia compreso tra 0 e la lunghezza dell'array
+      currentIndex -= 1; // Riduciamo di un'unità l'indice corrente
+
+      // Una volta che abbiamo preso l'indice casuale, invertiamo l'elemento che stiamo analizzando alla posizione corrente (currentIndex) con quello alla posizione presa casualmente (randomIndex)
+      temporaryValue = array[currentIndex];     // Variabile temporanea
+      array[currentIndex] = array[randomIndex];    // Eseguiamo lo scambio
+      array[randomIndex] = temporaryValue;
     }
-    return array    
+    return array
   }
 
 
   // FUNZIONE CAMBIARE IL TITOLO
-  function changeTitle (object,currentIndex) {
+  function changeTitle(object, currentIndex) {
     title[0].innerText = object[currentIndex].question
   }
 
@@ -160,14 +160,14 @@ window.onload = function() {
     }
     return true; // Nessuno è selezionato, restituisce true
   }
-  
+
   function checkAnswers(object, currentIndex) {
     const selectedAnswer = document.querySelector("input[type=radio]:checked");
     const radioButtons = document.querySelectorAll("input[type=radio][name=answer]");
-  
+
     if (selectedAnswer) {
       const selectedValue = selectedAnswer.value;
-      
+
       if (!areAllRadioButtonsUnchecked(radioButtons)) {
         if (selectedValue === object[currentIndex].correct_answer) {
           punteggio += 1;
@@ -179,43 +179,43 @@ window.onload = function() {
   }
 
   // FUNZIONE CREAZIONE DOMANDE E PULSANTI
-  function showQuestions (object,currentIndex) {
+  function showQuestions(object, currentIndex) {
     title[0].innerText = "";
     divCheck.innerText = "";
     divForm.innerHTML = "";
 
     // Assegno il testo della domanda
     title[0].innerText = object[currentIndex].question
-    
+
     // Prendo tutte le domande e le mescolo
     let vettore2 = []
     vettore2 = mescola(allAnswers(object[currentIndex]))
-    
+
     // Assegno il titolo della domanda
-    changeTitle(object,currentIndex)
+    changeTitle(object, currentIndex)
 
     // Ciclo per creare i pulsanti
     for (let i = 0; i < vettore2.length; i++) {
-        
-        let input = document.createElement("input");
-        input.value = vettore2[i];
-        input.type = "radio";
-        input.name = "answer";
-        
-        let label = document.createElement("label");
 
-        let span1 = document.createElement("span");
-        span1.classList.add("custom-radio")
-        
-        let span2 = document.createElement("span");
-        span2.classList.add("option-label")
-        span2.innerText = vettore2[i];
+      let input = document.createElement("input");
+      input.value = vettore2[i];
+      input.type = "radio";
+      input.name = "answer";
 
-        divForm.appendChild(label);
-        label.appendChild(input);
-        label.appendChild(span1);
-        span1.appendChild(span2);
-    }   
+      let label = document.createElement("label");
+
+      let span1 = document.createElement("span");
+      span1.classList.add("custom-radio")
+
+      let span2 = document.createElement("span");
+      span2.classList.add("option-label")
+      span2.innerText = vettore2[i];
+
+      divForm.appendChild(label);
+      label.appendChild(input);
+      label.appendChild(span1);
+      span1.appendChild(span2);
+    }
   }
 
 
@@ -226,7 +226,7 @@ window.onload = function() {
 
   // Funzione per iniziare il timer
   function startTimer() {
-    timerInterval = setInterval(function() {
+    timerInterval = setInterval(function () {
       seconds--;
       if (seconds <= 0) {
         clearInterval(timerInterval);
@@ -236,24 +236,24 @@ window.onload = function() {
         // Aggiungi qui le azioni da eseguire quando il timer raggiunge 0 (ad esempio, sottomettere automaticamente il quiz).
       } else {
         // Aggiorna il testo del timer
-        timer.innerText = "Timer: " + seconds + " secondi";
+        timer.innerHTML = "SECONDS<br><span class='seconds'>" + seconds + "</span><br> REMAINING";
       }
     }, 1000);
   }
 
   startTimer();
-  
 
-  showQuestions(questions,currentQuestionIndex)
+
+  showQuestions(questions, currentQuestionIndex)
   questionNumber.innerText = "QUESTION   " + (currentQuestionIndex + 1);
   numQuestions.innerText = '/' + numDomande;
 
 
-  submitButton.addEventListener("click", function(event) {
+  submitButton.addEventListener("click", function (event) {
     if (currentQuestionIndex < numDomande) {
       checkAnswers(questions, currentQuestionIndex);
       currentQuestionIndex += 1;
-      
+
       if (currentQuestionIndex === numDomande) {
         // Mostra il punteggio finale nel titolo
         title[0].innerText = "";
@@ -265,8 +265,8 @@ window.onload = function() {
         submitButton.style.display = "none";
         timer.style.display = "none"; // Rimuovi il messaggio "Timer"
         circularProgress.style.display = "none"; // Rimuovi il messaggio "Circular Progress"
-        
-          
+
+
       } else {
         seconds = 10;
         startTimer();
@@ -278,6 +278,6 @@ window.onload = function() {
         numQuestions.innerText = '/' + numDomande;
         divCheck.innerText = ""; // Resetta il messaggio "Correct" o "Incorrect"
       }
-    } 
+    }
   });
 }

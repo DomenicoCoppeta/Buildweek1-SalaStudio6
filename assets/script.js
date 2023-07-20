@@ -100,7 +100,7 @@ const questions = [
 
 
 // Caricamento della pagina
-window.onload = function() {
+window.onload = function () {
 
 
   // Identificare gli elementi nel DOM
@@ -111,16 +111,16 @@ window.onload = function() {
   // Clicca o no
   checkBox.addEventListener("change", function () {
     if (checkBox.checked === true) {
-        buttonProceed.disabled = false;
+      buttonProceed.disabled = false;
     } else {
-        buttonProceed.disabled = true;
+      buttonProceed.disabled = true;
     }
   })
 
   //FATTO FATTO FATTO
 
   // FUNZIONE CREAZIONE ARRAY CON TUTTE LE RISPOSTE
-  function allAnswers (object) {
+  function allAnswers(object) {
     let array = object.incorrect_answers
     array.push(object.correct_answer)
     return array
@@ -132,15 +132,15 @@ window.onload = function() {
     let currentIndex = array.length, temporaryValue, randomIndex; // Ci prendiamo la lunghezza dell'array e partiamo dal fondo!
     // Finché ci sono elementi da mescolare, iteriamo l'array
     while (0 !== currentIndex) {
-        randomIndex = Math.floor(Math.random() * currentIndex); // Prendiamo un indice a caso dell'array, purché sia compreso tra 0 e la lunghezza dell'array
-        currentIndex -= 1; // Riduciamo di un'unità l'indice corrente
-        
-        // Una volta che abbiamo preso l'indice casuale, invertiamo l'elemento che stiamo analizzando alla posizione corrente (currentIndex) con quello alla posizione presa casualmente (randomIndex)
-        temporaryValue = array[currentIndex];     // Variabile temporanea
-        array[currentIndex] = array[randomIndex];    // Eseguiamo lo scambio
-        array[randomIndex] = temporaryValue;
+      randomIndex = Math.floor(Math.random() * currentIndex); // Prendiamo un indice a caso dell'array, purché sia compreso tra 0 e la lunghezza dell'array
+      currentIndex -= 1; // Riduciamo di un'unità l'indice corrente
+
+      // Una volta che abbiamo preso l'indice casuale, invertiamo l'elemento che stiamo analizzando alla posizione corrente (currentIndex) con quello alla posizione presa casualmente (randomIndex)
+      temporaryValue = array[currentIndex];     // Variabile temporanea
+      array[currentIndex] = array[randomIndex];    // Eseguiamo lo scambio
+      array[randomIndex] = temporaryValue;
     }
-    return array    
+    return array
   }
 
   // Identificare gli elementi nel DOM
@@ -154,17 +154,17 @@ window.onload = function() {
   let numDomande = questions.length
   let currentQuestionIndex = 0
 
-  function changeTitle () {
-    title[0].innerText =  "Alessio" //questions[currentQuestionIndex].question
+  function changeTitle() {
+    title[0].innerText = "Alessio" //questions[currentQuestionIndex].question
   }
 
   changeTitle()
 
-  function showQuestions () {
+  function showQuestions() {
 
     // Assegno il testo della domanda
     title[0].innerText = questions[currentQuestionIndex].question
-    
+
     // Prendo tutte le domande e le mescolo
     let vettore = []
     let vettore2 = []
@@ -174,40 +174,40 @@ window.onload = function() {
 
     // Ciclo per creare i pulsanti
     for (let i = 0; i < vettore2.length; i++) {
-        
-        let input = document.createElement("input");
-        input.value = vettore2[i];
-        input.type = "radio";
-        input.name = "answer";
-        
-        let label = document.createElement("label");
-        label.innerText = vettore2[i];
 
-        divForm.appendChild(input);
-        divForm.appendChild(label);
+      let input = document.createElement("input");
+      input.value = vettore2[i];
+      input.type = "radio";
+      input.name = "answer";
+
+      let label = document.createElement("label");
+      label.innerText = vettore2[i];
+
+      divForm.appendChild(input);
+      divForm.appendChild(label);
     }
 
     // Passa alla domanda successiva
     currentQuestionIndex += 1
   }
 
-  function checkAnswers () {
+  function checkAnswers() {
     let selectedAnswer = document.querySelector("input[type=radio]:checked");
 
     if (selectedAnswer) {
-        let selectedValue = selectedAnswer.value;
+      let selectedValue = selectedAnswer.value;
 
-        if (selectedValue === questions[currentQuestionIndex].correct_answer) {
-            divCheck.innerText = "Correct";
-            punteggio += 1
-        } else {
-            divCheck.innerText = "Incorrect";
-        }
+      if (selectedValue === questions[currentQuestionIndex].correct_answer) {
+        divCheck.innerText = "Correct";
+        punteggio += 1
+      } else {
+        divCheck.innerText = "Incorrect";
+      }
     } else {
-        divCheck.innerText = "Please select an answer.";
+      divCheck.innerText = "Please select an answer.";
     }
   };
 
   showQuestions()
   setInterval(checkAnswers, 100)
-  }
+}
