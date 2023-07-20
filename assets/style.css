@@ -14,14 +14,28 @@ body {
     justify-content: center;
     margin-top: 50px;
 }
+
+#circular-progress {
+    position: relative;
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    border:8px solid #00FFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:rgb(111, 41, 116);
+}
+#timer {
+font-size:35px;
+}
+
 h1 {
     font-family: 'Outfit', sans-serif;
     font-weight: 400;
     font-size: 75px;
     line-height: 0.7;
 }
-
-
 
 h4 {
     font-family: 'Inter', sans-serif;
@@ -74,7 +88,9 @@ header {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    font-size: 60px;
+    font-weight: 200;
+    font-size: 40px;
+    font-family: 'Outfit', sans-serif;
 }
 
 #welcomeInstructions {
