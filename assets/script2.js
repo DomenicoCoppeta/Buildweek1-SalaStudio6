@@ -99,6 +99,7 @@ const questions = [
 ];
 
 
+
 // Caricamento della pagina
 window.onload = function() {
 
@@ -110,7 +111,8 @@ window.onload = function() {
   const questionNumber = document.getElementById("questionNumber")
   const numQuestions = document.getElementById("numQuestions")
   const timer = document.getElementById("timer")
-
+  const submitButton = document.getElementById("submit")
+  const circularProgress = document.getElementById("circular-progress")
   
 
   // Creo le variabili
@@ -157,13 +159,13 @@ window.onload = function() {
           let selectedValue = selectedAnswer;
   
           if (selectedValue === object[currentIndex].correct_answer) {
-              divCheck.innerText = "Correct";
+              //divCheck.innerText = "Correct";
               punteggio += 1
           } else {
-              divCheck.innerText = "Incorrect";
+              //divCheck.innerText = "Incorrect";
           }
       } else {
-          divCheck.innerText = "Please select an answer.";
+          //divCheck.innerText = "Please select an answer.";
       }
     };
 
@@ -226,44 +228,65 @@ window.onload = function() {
     }
   };
 
-let interval = 2000
+  // Inizializza la variabile del timer
+  let seconds = 51;
+  let timerInterval;
 
-function timerCounter (tempo) {
-  tempo = tempo - 1000;
-} 
 
-// FUNZIONE PER CAMBIARE DOMANDA O MOSTRARE IL PUNTEGGIO FINALE
-function changeQuestion() {
-  if (currentQuestionIndex < numDomande) {
-    showQuestions(questions, currentQuestionIndex);
-    questionNumber.innerText = "QUESTION  " + (currentQuestionIndex + 1);
-    numQuestions.innerText = ' /' + numDomande;
-    divCheck.innerText = ""; // Resetta il messaggio "Correct" o "Incorrect"
 
-    // Ritarda la valutazione della risposta dell'utente di 5 secondi
-    
-    setTimeout(function() {
-      checkAnswers(questions, currentQuestionIndex - 1);
-    }, interval -100);
-  
-    currentQuestionIndex += 1; // Passa alla prossima domanda
-
-  } else {
-    // Mostra il punteggio finale nel titolo
-    title[0].innerText = ""
-    questionNumber.innerText = ""
-    numQuestions.innerText = ""
-    title[0].innerText = "Hai completato il quiz! Punteggio: " + punteggio + " su " + numDomande;
-    divForm.innerHTML = ""; // Rimuovi il modulo delle domande
-    divCheck.innerText = ""; // Rimuovi il messaggio "Correct" o "Incorrect"
+  // Funzione per iniziare il timer
+  function startTimer() {
+    timerInterval = setInterval(function() {
+      seconds--;
+      if (seconds <= 0) {
+        // Aggiungi qui le azioni da eseguire quando il timer raggiunge 0 (ad esempio, sottomettere automaticamente il quiz).
+      } else {
+        // Aggiorna il testo del timer
+        timer.innerText = "Seconds " + seconds + " remaining";
+      }
+    }, 1000);
   }
-}
 
-// Ritarda l'esecuzione della funzione changeQuestion di 3 secondi
-setTimeout(function() {
-  changeQuestion();
-  // Ripeti la funzione ogni 3 secondi
-  setInterval(changeQuestion, interval);
+  startTimer();
   
-}, 1000);
-};
+
+  showQuestions(questions,currentQuestionIndex)
+  questionNumber.innerText = "QUESTION   " + (currentQuestionIndex + 1);
+  numQuestions.innerText = '/' + numDomande;
+
+
+  submitButton.addEventListener("click", function(event) {
+    if (currentQuestionIndex < numDomande) {
+      checkAnswers(questions, currentQuestionIndex);
+      currentQuestionIndex += 1;
+      
+      if (currentQuestionIndex === numDomande) {
+        // Mostra il punteggio finale nel titolo
+        title[0].innerText = "";
+        questionNumber.innerText = "";
+        numQuestions.innerText = "";
+        divForm.innerText = "";
+        title[0].innerText = "Hai completato il quiz! Punteggio: " + punteggio + " su " + numDomande;
+        divCheck.innerText = ""; // Rimuovi il messaggio "Correct" o "Incorrect"
+        submitButton.style.display = "none";
+        timer.style.display = "none"; // Rimuovi il messaggio "Timer"
+        circularProgress.style.display = "none"; // Rimuovi il messaggio "Circular Progress"
+        
+          
+      } else {
+        seconds = 51;
+        title[0].innerText = "";
+        questionNumber.innerText = "";
+        numQuestions.innerText = "";
+        showQuestions(questions, currentQuestionIndex);
+        questionNumber.innerText = "QUESTION   " + (currentQuestionIndex + 1);
+        numQuestions.innerText = '/' + numDomande;
+        divCheck.innerText = ""; // Resetta il messaggio "Correct" o "Incorrect"
+      }
+
+
+    
+    } 
+  });
+
+}
