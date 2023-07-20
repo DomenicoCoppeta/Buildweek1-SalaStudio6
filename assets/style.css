@@ -9,11 +9,15 @@
     color: #FFFFFF
 }
 
-
+body {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
 h1 {
     font-family: 'Outfit', sans-serif;
     font-weight: 200;
-    font-size: 75px;
+    font-size: 60px;
     line-height: 0.7;
 }
 
@@ -93,9 +97,12 @@ form {
     font-family: 'Inter', sans-serif;
 }
 
+main {
+    height: 65%;
+    width:auto;
+}
 footer {
     text-align: center;
-    padding-top: 200px;
 }
 
 /*** RADIO BOTTON **/
