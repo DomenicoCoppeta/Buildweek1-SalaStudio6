@@ -210,8 +210,7 @@ window.onload = function () {
   // Funzione: iniziare il timer
   function startTimer() {
     timerInterval = setInterval(function () {
-      seconds--;
-      // modifica di Erica: ho messo <0 così si vede il timer che scade 
+      seconds--; 
       if (seconds < 0) {
         clearInterval(timerInterval);
         timer.innerText = time // In modo che venga visualizzato subito il testo del timer
@@ -251,7 +250,7 @@ window.onload = function () {
         questionNumber.innerText = ""; // Rimuovo il numero della domanda
         numQuestions.innerText = ""; // // Rimuovo il totale delle domande
         divForm.innerText = ""; // Rimuovo il form dei pulsanti
-        title[0].innerText = "Hai completato il quiz! Punteggio: " + punteggio + " su " + numDomande;
+        title[0].innerText = "Exam completed! Your total score is: " + punteggio + " out of " + numDomande;
         submitButton.style.display = "none"; // Rimuovo il messaggio "Timer"
         timer.style.display = "none"; // Rimuovo il messaggio "Timer"
         circularProgress.style.display = "none"; // Rimuovo il messaggio "Circular Progress"
