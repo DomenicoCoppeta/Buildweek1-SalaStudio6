@@ -98,60 +98,55 @@ const questions = [
   },
 ];
 
-
-
 // Caricamento della pagina
 window.onload = function () {
 
-
-  // Identificare gli elementi nel DOM
+  // Identifico gli elementi nel DOM
   const title = document.getElementsByClassName("question");
   const divForm = document.getElementById("form");
-  const divCheck = document.getElementById("divResult")
   const questionNumber = document.getElementById("questionNumber")
   const numQuestions = document.getElementById("numQuestions")
   const timer = document.getElementById("timer")
   const submitButton = document.getElementById("submit")
   const circularProgress = document.getElementById("circular-progress")
 
+  // Variabili
+  let punteggio = 0;
+  let numDomande = questions.length;
+  let currentQuestionIndex = 0;
+  let time = 10; // Durata della domanda in Secondi
+  let seconds = time; // Variabile temporanea per la funzione startTimer()
+  let timerInterval; // Variabile temporanea per la funzione startTimer()
 
+  // Funzioni
 
-  // Creo le variabili
-  let punteggio = 0
-  let numDomande = questions.length
-  let currentQuestionIndex = 0
-
-  // FUNZIONE CREAZIONE ARRAY CON TUTTE LE RISPOSTE
+  // Funzione: creazione dell'array con tutte le risposte
   function allAnswers(object) {
     let array = object.incorrect_answers
     array.push(object.correct_answer)
     return array
   }
 
-  // FUNZIONE CREAZIONE ARRAY DOMANDE CASUALI
+  // Funzione: creazione array con risposte in ordine casuale
   function mescola(arrayMain) {
-    let array = arrayMain.slice()
-    let currentIndex = array.length, temporaryValue, randomIndex; // Ci prendiamo la lunghezza dell'array e partiamo dal fondo!
-    // Finché ci sono elementi da mescolare, iteriamo l'array
+    let array = arrayMain.slice();
+    let currentIndex = array.length, temporaryValue, randomIndex; 
     while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex); // Prendiamo un indice a caso dell'array, purché sia compreso tra 0 e la lunghezza dell'array
-      currentIndex -= 1; // Riduciamo di un'unità l'indice corrente
-
-      // Una volta che abbiamo preso l'indice casuale, invertiamo l'elemento che stiamo analizzando alla posizione corrente (currentIndex) con quello alla posizione presa casualmente (randomIndex)
-      temporaryValue = array[currentIndex];     // Variabile temporanea
-      array[currentIndex] = array[randomIndex];    // Eseguiamo lo scambio
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1; 
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
     return array
   }
 
-
-  // FUNZIONE CAMBIARE IL TITOLO
+  // Funzione: cambio titolo della pagina
   function changeTitle(object, currentIndex) {
     title[0].innerText = object[currentIndex].question
   }
 
-  // FUNZIONE CONTROLLARE RISPOSTE
+  // Funzione: cerca se almento un radio button è selezionato
   function areAllRadioButtonsUnchecked(radioButtons) {
     for (const radioButton of radioButtons) {
       if (radioButton.checked) {
@@ -161,6 +156,7 @@ window.onload = function () {
     return true; // Nessuno è selezionato, restituisce true
   }
 
+  // Funzione:
   function checkAnswers(object, currentIndex) {
     const selectedAnswer = document.querySelector("input[type=radio]:checked");
     const radioButtons = document.querySelectorAll("input[type=radio][name=answer]");
@@ -178,39 +174,32 @@ window.onload = function () {
     }
   }
 
-  // FUNZIONE CREAZIONE DOMANDE E PULSANTI
+  // Funzione: creazione domande e pulsanti
   function showQuestions(object, currentIndex) {
-    title[0].innerText = "";
-    divCheck.innerText = "";
-    divForm.innerHTML = "";
-
-    // Assegno il testo della domanda
-    title[0].innerText = object[currentIndex].question
-
-    // Prendo tutte le domande e le mescolo
+    title[0].innerText = ""; // Pulisco il titolo della domanda
+    divForm.innerHTML = ""; // Pulisco il form dei pulsanti
+    title[0].innerText = object[currentIndex].question // Assegno il testo della domanda
     let vettore2 = []
-    vettore2 = mescola(allAnswers(object[currentIndex]))
-
-    // Assegno il titolo della domanda
-    changeTitle(object, currentIndex)
+    vettore2 = mescola(allAnswers(object[currentIndex])) // Prendo tutte le domande e le mescolo
+    changeTitle(object, currentIndex) // Assegno il titolo della domanda
 
     // Ciclo per creare i pulsanti
     for (let i = 0; i < vettore2.length; i++) {
-
+      // Creo il pulsante
       let input = document.createElement("input");
       input.value = vettore2[i];
       input.type = "radio";
       input.name = "answer";
-
+      // Creo il label
       let label = document.createElement("label");
-
+      // Creo span1
       let span1 = document.createElement("span");
       span1.classList.add("custom-radio")
-
+      // Creo span2
       let span2 = document.createElement("span");
       span2.classList.add("option-label")
       span2.innerText = vettore2[i];
-
+      // Inserico il pulsante
       divForm.appendChild(label);
       label.appendChild(input);
       label.appendChild(span1);
@@ -218,65 +207,66 @@ window.onload = function () {
     }
   }
 
-
-  // Inizializza la variabile del timer
-  let seconds = 10;
-  let timerInterval;
-
-  // Funzione per iniziare il timer
+  // Funzione: iniziare il timer
   function startTimer() {
     timerInterval = setInterval(function () {
       seconds--;
-// modifica di Erica: ho messo <0 così si vede il timer che scade 
+      // modifica di Erica: ho messo <0 così si vede il timer che scade 
       if (seconds < 0) {
         clearInterval(timerInterval);
-        // Simula il click sul pulsante submit
+        timer.innerText = time // In modo che venga visualizzato subito il testo del timer
+        // Simula il click sul pulsante submit 
         const event = new Event("click");
         submitButton.dispatchEvent(event);
-        // Aggiungi qui le azioni da eseguire quando il timer raggiunge 0 (ad esempio, sottomettere automaticamente il quiz).
       } else {
-        // Aggiorna il testo del timer 
-        timer.innerHTML = seconds;
+        timer.innerHTML = seconds; // Aggiorna il testo del timer 
       }
     }, 1000);
   }
 
-  startTimer();
+  // Funzione: chiudi il timer
+  function stopTimer() {
+    clearInterval(timerInterval);
+  }
 
-
+  // Carico la prima domanda e inizializzo il timer
+  timer.innerText = time // In modo che venga visualizzato subito il testo del timer
   showQuestions(questions, currentQuestionIndex)
   questionNumber.innerText = "QUESTION   " + (currentQuestionIndex + 1);
   numQuestions.innerText = '/' + numDomande;
-
+  startTimer();
 
   submitButton.addEventListener("click", function (event) {
     if (currentQuestionIndex < numDomande) {
-      checkAnswers(questions, currentQuestionIndex);
-      currentQuestionIndex += 1;
 
+      // Se ci sono ancora domande: part 1
+      checkAnswers(questions, currentQuestionIndex); // Valuto la risposta alla domanda
+      currentQuestionIndex += 1; // Aggiorno la prossima domanda
+      stopTimer(); // Fermo e cancello il timer precedente
+
+      // Se le domande sono terinate
       if (currentQuestionIndex === numDomande) {
         // Mostra il punteggio finale nel titolo
-        title[0].innerText = "";
-        questionNumber.innerText = "";
-        numQuestions.innerText = "";
-        divForm.innerText = "";
+        title[0].innerText = ""; // Rimuovo il titolo della domanda
+        questionNumber.innerText = ""; // Rimuovo il numero della domanda
+        numQuestions.innerText = ""; // // Rimuovo il totale delle domande
+        divForm.innerText = ""; // Rimuovo il form dei pulsanti
         title[0].innerText = "Hai completato il quiz! Punteggio: " + punteggio + " su " + numDomande;
-        divCheck.innerText = ""; // Rimuovi il messaggio "Correct" o "Incorrect"
-        submitButton.style.display = "none";
-        timer.style.display = "none"; // Rimuovi il messaggio "Timer"
-        circularProgress.style.display = "none"; // Rimuovi il messaggio "Circular Progress"
+        submitButton.style.display = "none"; // Rimuovo il messaggio "Timer"
+        timer.style.display = "none"; // Rimuovo il messaggio "Timer"
+        circularProgress.style.display = "none"; // Rimuovo il messaggio "Circular Progress"
 
-
-      } else {
-        seconds = 10;
-        startTimer();
-        title[0].innerText = "";
-        questionNumber.innerText = "";
-        numQuestions.innerText = "";
-        showQuestions(questions, currentQuestionIndex);
-        questionNumber.innerText = "QUESTION   " + (currentQuestionIndex + 1);
-        numQuestions.innerText = '/' + numDomande;
-        divCheck.innerText = ""; // Resetta il messaggio "Correct" o "Incorrect"
+      // Se ci sono ancora domande: part 2
+      } else { 
+        timer.innerText = time // In modo che venga visualizzato subito il testo del timer
+        seconds=time; // Rinserisco i secondi nella domanda
+        startTimer(); // Rinizializzo il timer
+        title[0].innerText = ""; // Rimuovo il titolo della domanda
+        questionNumber.innerText = ""; // Rimuovo il numero della domanda
+        numQuestions.innerText = ""; // Rimuovo il totale delle domande
+        showQuestions(questions, currentQuestionIndex); // Aggiungo la domanda nella pagina
+        questionNumber.innerText = "QUESTION   " + (currentQuestionIndex + 1); // Aggiungo il numero della domanda nella pagina
+        numQuestions.innerText = '/' + numDomande; // Aggiungo il totale di domande
       }
     }
   });
