@@ -219,7 +219,6 @@ window.onload = function () {
   }
 
 
-
   // Inizializza la variabile del timer
   let seconds = 10;
   let timerInterval;
@@ -228,15 +227,16 @@ window.onload = function () {
   function startTimer() {
     timerInterval = setInterval(function () {
       seconds--;
-      if (seconds <= 0) {
+// modifica di Erica: ho messo <0 così si vede il timer che scade 
+      if (seconds < 0) {
         clearInterval(timerInterval);
         // Simula il click sul pulsante submit
         const event = new Event("click");
         submitButton.dispatchEvent(event);
         // Aggiungi qui le azioni da eseguire quando il timer raggiunge 0 (ad esempio, sottomettere automaticamente il quiz).
       } else {
-        // Aggiorna il testo del timer
-        timer.innerHTML = "SECONDS<br><span class='seconds'>" + seconds + "</span><br> REMAINING";
+        // Aggiorna il testo del timer 
+        timer.innerHTML = seconds;
       }
     }, 1000);
   }

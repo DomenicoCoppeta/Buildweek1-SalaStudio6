@@ -21,14 +21,15 @@ body {
     width: 120px;
     border-radius: 50%;
     border: 8px solid #00FFFF;
+    font-size: x-small;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(111, 41, 116);
+    flex-direction: column;
 }
 
 #timer {
-    font-size: 15px;
+    font-size: 50px;
 }
 
 .seconds {
