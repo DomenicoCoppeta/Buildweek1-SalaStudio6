@@ -4,61 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Questions</title>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
     <div class="content">
 
         <header>
-            <img class="epicodeLogo" src="epicode_logo.png" alt="logo Epicode">
-            <div>timer</div>
+            <img class="epicodeLogo" src="./assets/epicode_logo.png" alt="logo Epicode">
+            <div id="circular-progress"> SECONDS <span id="timer"><br></span> REMAINING</div>
         </header>
 
         <main>
-            <h1 class="question">How can I create a <br>
-                <b>checkbox in HTML?</b>
-            </h1>
-
-            <form>
-
-                <label>
-                    <input type="radio" name="answer" value="answer1" />
-                    <span class="custom-radio">
-                        <span class="option-label"> Pippo </span>
-                    </span>
-                </label>
-
-                <label>
-                    <input type="radio" name="answer" value="answer2" />
-                    <span class="custom-radio">
-                        <span class="option-label"> Pluto </span>
-                    </span>
-                </label>
-                <br>
-                <label>
-                    <input type="radio" name="answer" value="answer3" />
-                    <span class="custom-radio">
-                        <span class="option-label"> Paperino </span>
-                    </span>
-                </label>
-
-                <label>
-                    <input type="radio" name="answer" value="answer4" />
-                    <span class="custom-radio">
-                        <span class="option-label"> 313 </span>
-                    </span>
-                </label>
-
+            <h2 class="question"> </h2>
+            <form id="form">
             </form>
+            <button id="submit">SUBMIT</button>
         </main>
 
         <footer>
-            <h5>QUESTION 1 <span style="color: #D20094">/10</span></h5>
+            <h5> <span id="questionNumber"></span> <span id="numQuestions" style="color: #D20094"></span></h5>
         </footer>
 
     </div>
+
+    <script src="assets/script2.js"></script>
+
 </body>
 
 </html>
